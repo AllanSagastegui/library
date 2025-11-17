@@ -7,6 +7,7 @@ public class TokenBuilder {
     private String type;
     private LocalDateTime expiresAt;
     private LocalDateTime createdAt;
+    private String userId;
 
     public TokenBuilder() { }
 
@@ -30,7 +31,12 @@ public class TokenBuilder {
         return this;
     }
 
+    public TokenBuilder userId(String userId) {
+        this.userId = userId;
+        return this;
+    }
+
     public Token build() {
-        return new Token(token, type, expiresAt, createdAt);
+        return new Token(token, type, expiresAt, createdAt, userId);
     }
 }

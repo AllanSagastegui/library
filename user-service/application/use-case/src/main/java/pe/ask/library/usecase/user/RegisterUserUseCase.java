@@ -41,17 +41,20 @@ public class RegisterUserUseCase implements IRegisterUserUseCase {
                 .zipWith(userRepository.existsByEmail(user.getEmail()))
                 .filter(tuple -> !tuple.getT2())
                 .switchIfEmpty(Mono.error(UserAlreadyExistsException::new))
-                .map(tuple -> {
+                .flatMap(tuple -> {
                     var role = tuple.getT1();
-                    return User.builder()
-                            .name(user.getName())
-                            .lastName(user.getLastName())
-                            .email(user.getEmail())
-                            .password(passwordEncoder.encode(user.getPassword()))
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .roleId(role.getId())
-                            .build();
+                    return passwordEncoder.encode(user.getPassword())
+                            .map(encodedPassword ->
+                                    User.builder()
+                                            .name(user.getName())
+                                            .lastName(user.getLastName())
+                                            .email(user.getEmail())
+                                            .password(encodedPassword)
+                                            .createdAt(LocalDateTime.now())
+                                            .updatedAt(LocalDateTime.now())
+                                            .roleId(role.getId())
+                                            .build()
+                            );
                 })
                 .flatMap(userRepository::registerUser);
     }

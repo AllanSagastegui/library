@@ -1,8 +1,10 @@
 package pe.ask.library.model.user;
 
+import pe.ask.library.model.utils.IAuditable;
+
 import java.time.LocalDateTime;
 
-public class User {
+public class User implements IAuditable {
     private String id;
     private String name;
     private String lastName;
@@ -103,5 +105,10 @@ public class User {
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public String getAuditUserId() {
+        return this.id;
     }
 }

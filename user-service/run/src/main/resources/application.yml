@@ -5,10 +5,6 @@ spring:
     name: "Auth-Service"
   devtools:
     add-properties: false
-  h2:
-    console:
-      enabled: true
-      path: "/h2"
   profiles:
     include: dev
 springdoc:
@@ -17,8 +13,18 @@ springdoc:
   swagger-ui:
     path: /swagger-doc
 adapters:
-  mongodb:
-    uri: "mongodb://auth_admin:auth_password@192.168.18.74:27017/auth_database?authSource=admin"
+  persistence:
+    username: auth
+    password: password
+    host: localhost
+    port: 27017
+    database: auth
+    auth-source: admin
+  kafka:
+    producer:
+      bootstrap-servers: "192.168.18.74:9092"
+      key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+      value-serializer: "org.apache.kafka.common.serialization.StringSerializer"
 management:
   endpoints:
     web:

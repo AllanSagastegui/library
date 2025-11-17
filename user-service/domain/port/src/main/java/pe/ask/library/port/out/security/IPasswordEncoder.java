@@ -1,6 +1,8 @@
 package pe.ask.library.port.out.security;
 
+import reactor.core.publisher.Mono;
+
 public interface IPasswordEncoder {
-    String encode(String password);
-    boolean matches(String rawPassword, String hashedPassword);
+    Mono<String> encode(String password);
+    Mono<Boolean> matches(String rawPassword, String hashedPassword);
 }

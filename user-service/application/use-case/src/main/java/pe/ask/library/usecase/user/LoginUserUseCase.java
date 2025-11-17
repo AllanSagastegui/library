@@ -37,9 +37,9 @@ public class LoginUserUseCase implements ILoginUserUseCase {
         return userRepository.getByEmail(email)
                 .switchIfEmpty(Mono.error(InvalidCredentialsException::new))
                 .flatMap(user ->
-                        Mono.just(passwordEncoder.matches(password, user.getPassword()))
+                        passwordEncoder.matches(password, user.getPassword())
                                 .filter(Boolean::booleanValue)
-                                .switchIfEmpty(Mono.error(InvalidDnDOperationException::new))
+                                .switchIfEmpty(Mono.error(InvalidCredentialsException::new))
                                 .thenReturn(user)
                 )
                 .flatMap(tokenProvider::generateToken);

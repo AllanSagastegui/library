@@ -1,13 +1,16 @@
 package pe.ask.library.model.token;
 
+import pe.ask.library.model.utils.IAuditable;
+
 import java.time.LocalDateTime;
 
-public class Token {
+public class Token implements IAuditable {
 
     private String token;
     private String type;
     private LocalDateTime expiresAt;
     private LocalDateTime createdAt;
+    private String userId;
 
     public Token() { }
 
@@ -15,12 +18,14 @@ public class Token {
             String token,
             String type,
             LocalDateTime expiresAt,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            String userId
     ) {
         this.token = token;
         this.type = type;
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
+        this.userId = userId;
     }
 
     public static TokenBuilder builder() {
@@ -32,6 +37,12 @@ public class Token {
                 .token(this.token)
                 .type(this.type)
                 .expiresAt(this.expiresAt)
-                .createdAt(this.createdAt);
+                .createdAt(this.createdAt)
+                .userId(this.userId);
+    }
+
+    @Override
+    public String getAuditUserId() {
+        return this.userId;
     }
 }
