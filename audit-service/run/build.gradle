@@ -1,0 +1,41 @@
+apply plugin: 'org.springframework.boot'
+
+springBoot {
+    mainClass = 'pe.ask.library.MainApplication'
+}
+
+dependencies {
+    implementation project(':model')
+    implementation project(':port')
+    implementation project(':use-case')
+    implementation project(':aop')
+    implementation project(':logger')
+    implementation project(':persistence')
+    implementation project(':kafka-listener')
+    implementation project(':reactive-web')
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    runtimeOnly('org.springframework.boot:spring-boot-devtools')
+    implementation 'org.reactivecommons.utils:object-mapper:0.1.0'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.register('explodedJar', Copy) {
+    with jar
+    into layout.buildDirectory.dir("exploded")
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    archiveFileName = "${project.getParent().getName()}.${archiveExtension.get()}"
+}
