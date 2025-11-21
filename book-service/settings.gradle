@@ -16,3 +16,27 @@ rootProject.name = 'book-service'
 
 include ':run'
 project(':run').projectDir = file('./run')
+
+include ':model'
+project(':model').projectDir = file('./domain/model')
+
+include ':port'
+project(':port').projectDir = file('./domain/port')
+
+include ':use-case'
+project(':use-case').projectDir = file('./application/use-case')
+
+include ':aop'
+project(':aop').projectDir = file('./infrastructure/driven-adapters/aop')
+
+include ':kafka-sender'
+project(':kafka-sender').projectDir = file('./infrastructure/driven-adapters/kafka-sender')
+
+include ':logger'
+project(':logger').projectDir = file('./infrastructure/driven-adapters/logger')
+
+include ':persistence'
+project(':persistence').projectDir = file('./infrastructure/driven-adapters/persistence')
+
+include ':reactive-web'
+project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')

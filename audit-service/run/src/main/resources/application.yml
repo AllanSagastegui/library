@@ -13,6 +13,21 @@ springdoc:
   swagger-ui:
     path: /swagger-doc
 adapters:
+  persistence:
+    host: localhost
+    port: 9200
+entry-points:
+  kafka:
+    consumer:
+      bootstrap-servers: "localhost:9094"
+      group-id: "Audit-Service"
+      auto-offset-reset: "latest"
+      key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      value-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+    properties:
+      max.poll.records: 100
+      fetch.min.bytes: 500
+    audit-topic: "audit-log"
 management:
   endpoints:
     web:

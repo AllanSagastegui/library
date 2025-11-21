@@ -6,13 +6,14 @@ import org.springframework.stereotype.Component;
 import pe.ask.library.model.token.Token;
 import pe.ask.library.model.user.User;
 import pe.ask.library.port.out.persistence.IRoleRepository;
+import pe.ask.library.security.utils.RoleNotFoundException;
 import pe.ask.library.security.utils.TokenExpirationTime;
 import reactor.core.publisher.Mono;
 
 import java.security.PrivateKey;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId; // Importante añadir ZoneId
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class JwtProvider {
         final Instant expiry = now.plusSeconds(TokenExpirationTime.ACCESS.getSeconds());
 
         return roleRepository.getRoleById(user.getRoleId())
-                .switchIfEmpty(Mono.error(RuntimeException::new))
+                .switchIfEmpty(Mono.error(RoleNotFoundException::new))
                 .map(role -> Token.builder()
                         .token(Jwts.builder()
                                 .subject(user.getId())

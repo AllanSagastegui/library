@@ -14,10 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@Document(collection = "user")
+@Document(collection = "role")
 public class RoleDocument {
     @Id
-    @Field("id")
     private String id;
 
     @Field("name")

@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 @FunctionalInterface
 public interface ILoginUserUseCase {
-    Mono<Token> execute(String email, String password);
+    Mono<Token> loginUser(String email, String password);
 }

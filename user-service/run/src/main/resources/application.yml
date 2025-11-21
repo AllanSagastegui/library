@@ -17,12 +17,12 @@ adapters:
     username: theAsk
     password: elAllan!!12345
     host: localhost
-    port: 27017
+    port: 27018
     database: library-user
     auth-source: admin
   kafka:
     producer:
-      bootstrap-servers: "192.168.18.74:9092"
+      bootstrap-servers: "localhost:9094"
       key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
       value-serializer: "org.apache.kafka.common.serialization.StringSerializer"
 management:

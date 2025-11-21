@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 @FunctionalInterface
 public interface IRegisterUserUseCase {
-    Mono<User> execute(User user);
+    Mono<User> registerUser(User user);
 }

@@ -35,7 +35,7 @@ public class RegisterUserUseCase implements IRegisterUserUseCase {
     @Logger
     @Override
     @KafkaSender(topic = "audit-log")
-    public Mono<User> execute(User user) {
+    public Mono<User> registerUser(User user) {
         return roleRepository.getRoleByName(Roles.ADMIN.toString())
                 .switchIfEmpty(Mono.error(RoleNotFoundException::new))
                 .zipWith(userRepository.existsByEmail(user.getEmail()))

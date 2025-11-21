@@ -3,8 +3,6 @@ package pe.ask.library.api.exception;
 import pe.ask.library.model.exception.BaseException;
 import pe.ask.library.model.exception.ErrorCatalog;
 
-import java.util.Map;
-
 public class UnexpectedException extends BaseException {
     public UnexpectedException(Throwable cause) {
         super(

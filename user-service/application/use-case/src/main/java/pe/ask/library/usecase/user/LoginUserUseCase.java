@@ -11,8 +11,6 @@ import pe.ask.library.usecase.utils.UseCase;
 import pe.ask.library.usecase.utils.exception.InvalidCredentialsException;
 import reactor.core.publisher.Mono;
 
-import java.awt.dnd.InvalidDnDOperationException;
-
 @UseCase
 public class LoginUserUseCase implements ILoginUserUseCase {
 
@@ -33,7 +31,7 @@ public class LoginUserUseCase implements ILoginUserUseCase {
     @Logger
     @Override
     @KafkaSender(topic = "audit-log")
-    public Mono<Token> execute(String email, String password) {
+    public Mono<Token> loginUser(String email, String password) {
         return userRepository.getByEmail(email)
                 .switchIfEmpty(Mono.error(InvalidCredentialsException::new))
                 .flatMap(user ->
