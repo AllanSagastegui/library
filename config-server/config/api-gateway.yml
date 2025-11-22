@@ -4,31 +4,28 @@ server:
 spring:
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: false
-          lower-case-service-id: true
-      routes:
-        - id: book-service-route
-          uri: lb://BOOK-SERVICE
-          predicates:
-            - Path=/book-service/**
-          filters:
-            - StripPrefix=1
+      web-flux:
+        routes:
+          - id: book-service-route
+            uri: lb://BOOK-SERVICE
+            predicates:
+              - Path=/book-service/**
+            filters:
+              - StripPrefix=1
 
-        - id: user-service-route
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/**
-          filters:
-            - StripPrefix=1
+          - id: user-service-route
+            uri: lb://USER-SERVICE
+            predicates:
+              - Path=/user-service/**
+            filters:
+              - StripPrefix=1
 
-        - id: audit-service-route
-          uri: lb://AUDIT-SERVICE
-          predicates:
-            - Path=/audit-service/**
-          filters:
-            - StripPrefix=1
+          - id: audit-service-route
+            uri: lb://AUDIT-SERVICE
+            predicates:
+              - Path=/audit-service/**
+            filters:
+              - StripPrefix=1
 
       globalcors:
         cors-configurations:
