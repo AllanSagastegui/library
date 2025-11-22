@@ -1,42 +1,41 @@
 server:
-  port: 8080
+  port: 8080 # Netty levantará en este puerto
 
 spring:
   cloud:
     gateway:
-      web-flux:
-        routes:
-          - id: book-service-route
-            uri: lb://BOOK-SERVICE
-            predicates:
-              - Path=/book-service/**
-            filters:
-              - StripPrefix=1
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
 
-          - id: user-service-route
-            uri: lb://USER-SERVICE
-            predicates:
-              - Path=/user-service/**
-            filters:
-              - StripPrefix=1
+      routes:
+        - id: book-service-route
+          uri: lb://BOOK-SERVICE
+          predicates:
+            - Path=/book-service/**
+          filters:
+            - StripPrefix=1
 
-          - id: audit-service-route
-            uri: lb://AUDIT-SERVICE
-            predicates:
-              - Path=/audit-service/**
-            filters:
-              - StripPrefix=1
+        - id: user-service-route
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: audit-service-route
+          uri: lb://AUDIT-SERVICE
+          predicates:
+            - Path=/audit-service/**
+          filters:
+            - StripPrefix=1
 
       globalcors:
         cors-configurations:
           '[/**]':
             allowedOrigins: "http://localhost:4200"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
+            allowedMethods: "*"
             allowedHeaders: "*"
 
 eureka:
@@ -50,3 +49,4 @@ eureka:
 logging:
   level:
     org.springframework.cloud.gateway: INFO
+    reactor.netty: INFO
