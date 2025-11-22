@@ -10,24 +10,21 @@ spring:
           predicates:
             - Path=/book-service/**
           filters:
-            - StripPrefix=1
-            - PrefixPath=/api/v1
+            - Path=/api/v1/books/**
 
         - id: user-service-route
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
           filters:
-            - StripPrefix=1
-            - PrefixPath=/api/v1
+            - Path=/api/v1/user/**
 
         - id: audit-service-route
           uri: lb://AUDIT-SERVICE
           predicates:
             - Path=/audit-service/**
           filters:
-            - StripPrefix=1
-            - PrefixPath=/api/v1
+            - Path=/api/v1/audit-log/**
 
       globalcors:
         cors-configurations:

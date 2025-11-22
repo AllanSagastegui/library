@@ -41,6 +41,8 @@ logging:
     pe:
       ask:
         library: TRACE
+    org.springframework.r2dbc.core: DEBUG
+    io.r2dbc.spi: DEBUG
 eureka:
   client:
     service-url:
