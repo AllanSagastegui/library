@@ -4,16 +4,13 @@ server:
 spring:
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: false
-          lower-case-service-id: true
       routes:
         - id: book-service-route
           uri: lb://BOOK-SERVICE
           predicates:
             - Path=/book-service/**
           filters:
+            - StripPrefix=1
             - PrefixPath=/api/v1
 
         - id: user-service-route
@@ -21,6 +18,7 @@ spring:
           predicates:
             - Path=/user-service/**
           filters:
+            - StripPrefix=1
             - PrefixPath=/api/v1
 
         - id: audit-service-route
@@ -28,6 +26,7 @@ spring:
           predicates:
             - Path=/audit-service/**
           filters:
+            - StripPrefix=1
             - PrefixPath=/api/v1
 
       globalcors:
