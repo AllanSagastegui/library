@@ -4,22 +4,6 @@ server:
 spring:
   cloud:
     gateway:
-      routes:
-        - id: book-service-route
-          uri: lb://BOOK-SERVICE
-          predicates:
-            - Path=/api/v1/books/**
-
-        - id: user-service-route
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/api/v1/user/**
-
-        - id: audit-service-route
-          uri: lb://AUDIT-SERVICE
-          predicates:
-            - Path=/api/v1/audit-log/**
-
       globalcors:
         cors-configurations:
           '[/**]':
