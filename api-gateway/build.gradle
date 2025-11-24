@@ -21,6 +21,7 @@ repositories {
 ext {
     set('springCloudVersion', "2025.0.0")
     set('jjwtVersion', "0.13.0")
+    set('lombokVersion', '1.18.38')
 }
 
 dependencies {
@@ -46,6 +47,15 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'com.fasterxml.jackson.core:jackson-core'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor  "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly  "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor  "org.projectlombok:lombok:${lombokVersion}"
 }
 
 dependencyManagement {

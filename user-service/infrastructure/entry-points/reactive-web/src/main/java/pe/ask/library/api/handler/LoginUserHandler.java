@@ -22,7 +22,7 @@ public class LoginUserHandler extends ReactiveHandlerOperations<
 
     public Mono<ServerResponse> listenPOSTLoginUserUseCase(ServerRequest serverRequest) {
         return extractBody(serverRequest, LoginRequest.class)
-                .flatMap(dto -> useCase.loginUser(dto.email(), dto.password()))
+                .flatMap(dto -> useCase.loginUser(dto.getEmail(), dto.getPassword()))
                 .map(domainObject -> map(domainObject, LoginResponse.class))
                 .as(this::buildResponse);
     }

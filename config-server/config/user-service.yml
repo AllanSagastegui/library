@@ -34,7 +34,7 @@ entry-points:
       max.poll.records: 100
       fetch.min.bytes: 500
     topics:
-      - "loan-validate-book-stock"
+      - "notification-user-info"
 management:
   endpoints:
     web:

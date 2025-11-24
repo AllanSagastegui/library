@@ -29,8 +29,13 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(auth -> auth
                         .pathMatchers(
-                                ""
-                        ).permitAll()
+                                "/api/v1/user/**"
+                        )
+                        .permitAll()
+                        .pathMatchers(
+                                "/api/v1/books/**",
+                                "/api/v1/loans/**"
+                        ).hasAnyRole("ADMIN", "LIBRARY", "USER")
                 )
                 .exceptionHandling(ex -> ex
                         .accessDeniedHandler(accessDeniedHandler)
