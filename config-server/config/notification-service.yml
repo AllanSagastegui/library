@@ -4,6 +4,7 @@ server:
     add-properties: false
   profiles:
     include: dev
+spring:
   mail:
     host: smtp.gmail.com
     port: 587
