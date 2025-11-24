@@ -5,15 +5,28 @@ spring:
     add-properties: false
   profiles:
     include: dev
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: credityadev@gmail.com
+    password: ndfxairkugpgqzue
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-doc
 adapters:
-  persistence:
-    host: localhost
-    port: 9200
+  kafka:
+    producer:
+      bootstrap-servers: "localhost:9094"
+      key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+      value-serializer: "org.apache.kafka.common.serialization.StringSerializer"
 entry-points:
   kafka:
     consumer:
@@ -25,7 +38,10 @@ entry-points:
     properties:
       max.poll.records: 100
       fetch.min.bytes: 500
-    audit-topic: "audit-log"
+    topics:
+      - "loan-notification"
+      - "welcome-email"
+      - "loan-email"
 management:
   endpoints:
     web:
@@ -35,8 +51,6 @@ management:
     health:
       probes:
         enabled: true
-cors:
-  allowed-origins: "http://localhost:4200,http://localhost:8080"
 logging:
   level:
     pe:

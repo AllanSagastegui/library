@@ -1,33 +1,46 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Bienvenido a Ask-Library</title>
 </head>
 <body style="font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; padding: 2rem; margin: 0;">
-<div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: .5rem; box-shadow: 0 4px 12px rgba(0,0,0,.1); padding: 2rem;">
-    <h1 style="color: #7482ff; text-align: center; margin-bottom: 1rem;" th:text="${title}">¡Bienvenido!</h1>
 
-    <p style="font-size: 1rem; color: #212529; text-align: center;">
-        Hola <span th:text="${userName}">Usuario</span>,
-    </p>
+<div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: .5rem; box-shadow: 0 4px 12px rgba(0,0,0,.08); overflow: hidden;">
 
-    <p style="font-size: 1rem; color: #212529; text-align: center;" th:text="${message}">
-        Gracias por unirte a los usuarios de Ask-Library. Estamos felices de tenerte con nosotros.
-    </p>
+    <div style="background-color: #7482ff; height: 10px; width: 100%;"></div>
 
+    <div style="padding: 2.5rem;">
 
-    <div style="text-align: center; margin-top: 2rem;">
-        <a th:href="${repoLink}" href="#"
-           style="background-color: #7482ff; color: #ffffff; padding: .75rem 1.5rem; border-radius: .25rem;
-                      text-decoration: none; font-weight: 600; display: inline-block;">
-            Ir al portal de Ask-Library
-        </a>
+        <h1 style="color: #212529; text-align: center; margin-bottom: 1rem; font-size: 1.75rem;" th:text="${title}">
+            ¡Bienvenido a bordo!
+        </h1>
+
+        <p style="font-size: 1.1rem; color: #495057; text-align: center; line-height: 1.6;">
+            Hola <strong th:text="${userName}" style="color: #7482ff;">Usuario</strong>,
+        </p>
+
+        <p style="font-size: 1rem; color: #6c757d; text-align: center; margin-bottom: 2rem;">
+            Gracias por unirte a <strong>Ask-Library</strong>. Tu cuenta ha sido creada exitosamente. Estamos felices de ser parte de tu aprendizaje.
+        </p>
+
+        <div style="text-align: center;">
+            <a th:href="${portalUrl}" href="#"
+               style="background-color: #7482ff; color: #ffffff; padding: .85rem 2rem; border-radius: 50px;
+                      text-decoration: none; font-weight: 600; display: inline-block; box-shadow: 0 2px 5px rgba(116, 130, 255, 0.4);">
+                Visitar Repositorio
+            </a>
+        </div>
+
+        <div style="margin-top: 3rem; border-top: 1px solid #e9ecef; padding-top: 1.5rem; text-align: center;">
+            <p style="margin: 0; font-size: .8rem; color: #adb5bd;">
+                Si no creaste esta cuenta, puedes ignorar este correo.
+            </p>
+            <p style="margin: 5px 0 0 0; font-size: .8rem; color: #adb5bd;">
+                &copy; 2025 Ask-Library Team
+            </p>
+        </div>
     </div>
-
-    <p style="margin-top: 2rem; font-size: .875rem; color: #6c757d; text-align: center;">
-        Este es un correo automático. Por favor, no respondas.
-    </p>
 </div>
 </body>
 </html>

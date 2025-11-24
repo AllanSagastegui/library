@@ -48,6 +48,7 @@ services:
       - "5431:5432"
     volumes:
       - library-loan-db-data:/var/lib/postgresql
+      - ./database/loan/data.sql:/docker-entrypoint-initdb.d/data.sql
     networks:
       - library-network
 

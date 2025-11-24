@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "adapters.kafka")
-public class KafkaProperties {
+public class KafkaSenderProperties {
 
     private Producer producer = new Producer();
     @Data

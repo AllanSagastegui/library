@@ -13,14 +13,14 @@ import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties(KafkaProperties.class)
-public class KafkaConfig {
+@EnableConfigurationProperties(KafkaSenderProperties.class)
+public class KafkaSenderConfig {
 
-    private final KafkaProperties kafkaProperties;
+    private final KafkaSenderProperties kafkaSenderProperties;
 
     @Bean
     public SenderOptions<String, String> senderOptions() {
-        var producerProps = kafkaProperties.getProducer();
+        var producerProps = kafkaSenderProperties.getProducer();
 
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, producerProps.getBootstrapServers());

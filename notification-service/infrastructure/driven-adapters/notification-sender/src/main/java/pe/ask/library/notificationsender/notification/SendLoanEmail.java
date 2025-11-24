@@ -22,7 +22,7 @@ import java.util.UUID;
 public class SendLoanEmail implements ISendLoanEmail {
 
     private final SendEmail sendEmail;
-    private final SpringTemplateEngine templateEngine;
+    private final SpringTemplateEngine customTemplateEngine;
 
     private static final String BASE_URL = "https://github.com/AllanSagastegui/library";
 
@@ -52,7 +52,7 @@ public class SendLoanEmail implements ISendLoanEmail {
 
                     context.setVariables(variables);
 
-                    return templateEngine.process("loan-status", context);
+                    return customTemplateEngine.process("send-loan-email", context);
                 })
                 .subscribeOn(Schedulers.boundedElastic())
                 .flatMap(htmlContent -> {

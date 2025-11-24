@@ -13,7 +13,7 @@ import java.util.Map;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "entry-points.kafka")
-public class KafkaProperties {
+public class KafkaListenerProperties {
 
     private List<String> topics = new ArrayList<>();
     private Consumer consumer = new Consumer();

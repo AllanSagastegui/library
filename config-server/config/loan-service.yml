@@ -13,7 +13,16 @@ springdoc:
 adapters:
   persistence:
     host: localhost
-    port: 9200
+    port: 5431
+    database: library-loan
+    username: theask
+    password: elAllan!!12345
+    schema: public
+  kafka:
+    producer:
+      bootstrap-servers: "localhost:9094"
+      key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+      value-serializer: "org.apache.kafka.common.serialization.StringSerializer"
 entry-points:
   kafka:
     consumer:
@@ -25,7 +34,8 @@ entry-points:
     properties:
       max.poll.records: 100
       fetch.min.bytes: 500
-    audit-topic: "audit-log"
+    topics:
+      - "book-validate-stock"
 management:
   endpoints:
     web:

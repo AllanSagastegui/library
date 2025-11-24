@@ -5,56 +5,70 @@
     <title>Estado de Préstamo de Libro</title>
 </head>
 <body style="font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; padding: 2rem; margin: 0;">
-<div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: .5rem; box-shadow: 0 4px 12px rgba(0,0,0,.1); padding: 2rem;">
 
-    <h1 style="color: #7482ff; text-align: center; margin-bottom: 1rem;" th:text="${title}">
-        Actualización de Préstamo
-    </h1>
+<div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: .5rem; box-shadow: 0 4px 12px rgba(0,0,0,.08); overflow: hidden;">
 
-    <p style="font-size: 1rem; color: #212529; text-align: center;">
-        Hola <strong th:text="${userName}">Usuario</strong>,
-    </p>
+    <div style="background-color: #7482ff; height: 10px; width: 100%;"></div>
 
-    <p style="font-size: 1rem; color: #212529; text-align: center;">
-        Te informamos sobre el estado de tu solicitud:
-    </p>
+    <div style="padding: 2.5rem;">
 
-    <div style="text-align: center; margin: 1.5rem 0;">
-        <span th:style="'display:inline-block;padding:.75rem 1.5rem;border-radius:.25rem;font-weight:600;color:#fff;background-color:' + ${statusColor}"
-              th:text="${newStatus}">
-            ESTADO
-        </span>
-    </div>
+        <h1 style="color: #212529; text-align: center; margin-bottom: 1rem; font-size: 1.75rem;" th:text="${title}">
+            Actualización de Préstamo
+        </h1>
 
-    <div style="background-color: #f8f9fa; border-radius: .5rem; padding: 1.5rem; margin: 1.5rem 0; text-align: left;">
-        <p style="margin: 0 0 .5rem 0; font-size: .9rem; color: #6c757d;">
-            ID de Préstamo:
-            <span style="display: block; color: #212529; font-weight: 500; font-family: monospace; font-size: 1rem;" th:text="${loanId}">UUID-CODE</span>
+        <p style="font-size: 1.1rem; color: #495057; text-align: center; line-height: 1.6;">
+            Hola <strong th:text="${userName}" style="color: #7482ff;">Usuario</strong>,
         </p>
 
-        <div style="margin-top: 1rem; display: flex; justify-content: space-between;">
-            <div style="width: 48%;">
-                <span style="font-size: .85rem; color: #6c757d;">Fecha Solicitud</span><br>
-                <strong style="color: #212529;" th:text="${#temporals.format(loanDate, 'dd-MM-yyyy HH:mm')}">01-01-2025</strong>
-            </div>
-            <div style="width: 48%;">
-                <span style="font-size: .85rem; color: #6c757d;">Devolución Estimada</span><br>
-                <strong style="color: #212529;" th:text="${#temporals.format(estimatedReturnDate, 'dd-MM-yyyy HH:mm')}">15-01-2025</strong>
+        <p style="font-size: 1rem; color: #6c757d; text-align: center; margin-bottom: 1.5rem;">
+            Te informamos sobre el cambio de estado en tu solicitud:
+        </p>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <span th:style="'display:inline-block;padding:.75rem 2rem;border-radius:50px;font-weight:600;font-size:0.9rem;letter-spacing:0.5px;color:#fff;box-shadow: 0 2px 4px rgba(0,0,0,0.1);background-color:' + ${statusColor}"
+                  th:text="${newStatus}">
+                ESTADO
+            </span>
+        </div>
+
+        <div style="background-color: #f8f9fa; border-radius: .5rem; padding: 1.5rem; margin-bottom: 2rem; text-align: left; border: 1px solid #e9ecef;">
+            <p style="margin: 0 0 .75rem 0; font-size: .9rem; color: #6c757d; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">
+                ID de Préstamo
+            </p>
+            <p style="margin: 0 0 1.5rem 0; font-family: monospace; font-size: 1.1rem; color: #212529; background: #fff; padding: .5rem; border-radius: 4px; border: 1px solid #dee2e6; display: inline-block;"
+               th:text="${loanId}">
+                UUID-CODE
+            </p>
+
+            <div style="display: flex; justify-content: space-between;">
+                <div style="width: 48%;">
+                    <span style="font-size: .85rem; color: #6c757d;">Fecha Solicitud</span><br>
+                    <strong style="color: #212529; font-size: 1rem;" th:text="${#temporals.format(loanDate, 'dd-MM-yyyy HH:mm')}">01-01-2025</strong>
+                </div>
+                <div style="width: 48%;">
+                    <span style="font-size: .85rem; color: #6c757d;">Devolución Estimada</span><br>
+                    <strong style="color: #212529; font-size: 1rem;" th:text="${#temporals.format(estimatedReturnDate, 'dd-MM-yyyy HH:mm')}">15-01-2025</strong>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div style="text-align: center; margin-top: 2rem;">
-        <a th:href="${repoLink}" href="#"
-           style="background-color: #7482ff; color: #ffffff; padding: .75rem 1.5rem; border-radius: .25rem;
-                  text-decoration: none; font-weight: 600; display: inline-block;">
-            Ir al portal de Ask-Library
-        </a>
-    </div>
+        <div style="text-align: center;">
+            <a th:href="${repoLink}" href="#"
+               style="background-color: #7482ff; color: #ffffff; padding: .85rem 2rem; border-radius: 50px;
+                      text-decoration: none; font-weight: 600; display: inline-block; box-shadow: 0 2px 5px rgba(116, 130, 255, 0.4);">
+                Visitar Repositorio
+            </a>
+        </div>
 
-    <p style="margin-top: 2rem; font-size: .875rem; color: #6c757d; text-align: center;">
-        Este es un correo automático. Por favor, no respondas a este mensaje.
-    </p>
+        <div style="margin-top: 3rem; border-top: 1px solid #e9ecef; padding-top: 1.5rem; text-align: center;">
+            <p style="margin: 0; font-size: .8rem; color: #adb5bd;">
+                Este es un aviso automático de Ask-Library.
+            </p>
+            <p style="margin: 5px 0 0 0; font-size: .8rem; color: #adb5bd;">
+                &copy; 2025 Ask-Library Team
+            </p>
+        </div>
+    </div>
 </div>
 </body>
 </html>

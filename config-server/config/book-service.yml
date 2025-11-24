@@ -1,5 +1,6 @@
 server:
   port: 0
+spring:
   devtools:
     add-properties: false
   profiles:

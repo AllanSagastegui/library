@@ -8,20 +8,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import reactor.kafka.receiver.ReceiverOptions;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties(KafkaProperties.class)
-public class KafkaConfig {
+@EnableConfigurationProperties(KafkaListenerProperties.class)
+public class KafkaListenerConfig {
 
-    private final KafkaProperties kafkaProperties;
+    private final KafkaListenerProperties kafkaListenerProperties;
 
     @Bean
     public ReceiverOptions<String, String> receiverOptions() {
-        var consumerProps = kafkaProperties.getConsumer();
+        var consumerProps = kafkaListenerProperties.getConsumer();
 
         Map<String, Object> props = new HashMap<>();
 
@@ -31,9 +30,9 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, consumerProps.getKeyDeserializer());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, consumerProps.getValueDeserializer());
 
-        props.putAll(kafkaProperties.getProperties());
+        props.putAll(kafkaListenerProperties.getProperties());
         return ReceiverOptions.<String, String>create(props)
-                .subscription(kafkaProperties.getTopics());
+                .subscription(kafkaListenerProperties.getTopics());
     }
 
     @Bean
