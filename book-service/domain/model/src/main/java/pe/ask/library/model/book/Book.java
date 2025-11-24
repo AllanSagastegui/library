@@ -10,13 +10,14 @@ public class Book {
     private int numberOfPages;
     private String language;
     private Format format;
+    private int stock;
     private UUID publisherId;
     private UUID categoryId;
     private UUID authorId;
 
     public Book() {}
 
-    public Book(UUID id, String title, String gender, String summary, int numberOfPages, String language, Format format, UUID publisherId, UUID categoryId, UUID authorId) {
+    public Book(UUID id, String title, String gender, String summary, int numberOfPages, String language, Format format, int stock, UUID publisherId, UUID categoryId, UUID authorId) {
         this.id = id;
         this.title = title;
         this.gender = gender;
@@ -27,6 +28,7 @@ public class Book {
         this.publisherId = publisherId;
         this.categoryId = categoryId;
         this.authorId = authorId;
+        this.stock = stock;
     }
 
     public static BookBuilder builder() {
@@ -68,6 +70,9 @@ public class Book {
     public Format getFormat() {
         return format;
     }
+    public int getStock() {
+        return stock;
+    }
     public UUID getPublisherId() {
         return publisherId;
     }
@@ -97,6 +102,9 @@ public class Book {
     }
     public void setFormat(Format format) {
         this.format = format;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
     public void setPublisherId(UUID publisherId) {
         this.publisherId = publisherId;

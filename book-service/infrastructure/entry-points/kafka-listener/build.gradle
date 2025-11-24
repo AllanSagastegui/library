@@ -1,0 +1,9 @@
+dependencies {
+    implementation project(':model')
+    implementation project(':port')
+    implementation 'org.springframework:spring-context'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+    implementation 'io.projectreactor.kafka:reactor-kafka'
+    implementation 'org.springframework.kafka:spring-kafka'
+}

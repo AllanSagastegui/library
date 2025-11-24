@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Estado de Préstamo de Libro</title>
+</head>
+<body style="font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; padding: 2rem; margin: 0;">
+<div style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: .5rem; box-shadow: 0 4px 12px rgba(0,0,0,.1); padding: 2rem;">
+
+    <h1 style="color: #7482ff; text-align: center; margin-bottom: 1rem;" th:text="${title}">
+        Actualización de Préstamo
+    </h1>
+
+    <p style="font-size: 1rem; color: #212529; text-align: center;">
+        Hola <strong th:text="${userName}">Usuario</strong>,
+    </p>
+
+    <p style="font-size: 1rem; color: #212529; text-align: center;">
+        Te informamos sobre el estado de tu solicitud:
+    </p>
+
+    <div style="text-align: center; margin: 1.5rem 0;">
+        <span th:style="'display:inline-block;padding:.75rem 1.5rem;border-radius:.25rem;font-weight:600;color:#fff;background-color:' + ${statusColor}"
+              th:text="${newStatus}">
+            ESTADO
+        </span>
+    </div>
+
+    <div style="background-color: #f8f9fa; border-radius: .5rem; padding: 1.5rem; margin: 1.5rem 0; text-align: left;">
+        <p style="margin: 0 0 .5rem 0; font-size: .9rem; color: #6c757d;">
+            ID de Préstamo:
+            <span style="display: block; color: #212529; font-weight: 500; font-family: monospace; font-size: 1rem;" th:text="${loanId}">UUID-CODE</span>
+        </p>
+
+        <div style="margin-top: 1rem; display: flex; justify-content: space-between;">
+            <div style="width: 48%;">
+                <span style="font-size: .85rem; color: #6c757d;">Fecha Solicitud</span><br>
+                <strong style="color: #212529;" th:text="${#temporals.format(loanDate, 'dd-MM-yyyy HH:mm')}">01-01-2025</strong>
+            </div>
+            <div style="width: 48%;">
+                <span style="font-size: .85rem; color: #6c757d;">Devolución Estimada</span><br>
+                <strong style="color: #212529;" th:text="${#temporals.format(estimatedReturnDate, 'dd-MM-yyyy HH:mm')}">15-01-2025</strong>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+        <a th:href="${repoLink}" href="#"
+           style="background-color: #7482ff; color: #ffffff; padding: .75rem 1.5rem; border-radius: .25rem;
+                  text-decoration: none; font-weight: 600; display: inline-block;">
+            Ir al portal de Ask-Library
+        </a>
+    </div>
+
+    <p style="margin-top: 2rem; font-size: .875rem; color: #6c757d; text-align: center;">
+        Este es un correo automático. Por favor, no respondas a este mensaje.
+    </p>
+</div>
+</body>
+</html>

@@ -59,4 +59,7 @@ public interface IBookReactiveRepository extends ReactiveCrudRepository<BookEnti
 
     @Query("SELECT count(*) FROM book")
     Mono<Long> countAll();
+
+    @Query("SELECT EXISTS(SELECT 1 FROM book WHERE id = :id AND stock > 0)")
+    Mono<Boolean> validateBookStock(@Param("id") UUID id);
 }

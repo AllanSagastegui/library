@@ -1,0 +1,14 @@
+package pe.ask.library.kafkalistener.payload;
+
+import pe.ask.library.port.utils.Status;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record LoanNotificationMsg(
+        UUID loanId,
+        UUID userId,
+        LocalDateTime loanDate,
+        LocalDateTime estimatedReturnDate,
+        Status status
+){ }

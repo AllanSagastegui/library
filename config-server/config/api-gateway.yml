@@ -1,16 +1,6 @@
 server:
   port: 8080
 
-spring:
-  cloud:
-    gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:4200"
-            allowedMethods: "*"
-            allowedHeaders: "*"
-
 eureka:
   client:
     service-url:

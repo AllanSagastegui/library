@@ -9,6 +9,8 @@ import pe.ask.library.persistence.repository.IUserReactiveRepository;
 import pe.ask.library.port.out.persistence.IUserRepository;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Repository
 public class UserReactiveRepositoryAdapter extends AdapterOperations<
         User,
@@ -36,5 +38,11 @@ public class UserReactiveRepositoryAdapter extends AdapterOperations<
     @Override
     public Mono<Boolean> existsByEmail(String email) {
         return super.repository.existsByEmail(email);
+    }
+
+    @Override
+    public Mono<User> getUserById(String userId) {
+        return super.repository.findById(userId)
+                .map(this::toEntity);
     }
 }

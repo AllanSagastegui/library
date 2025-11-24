@@ -39,6 +39,9 @@ public class BookEntity {
     @Column("format")
     private Format format;
 
+    @Column("stock")
+    private int stock;
+
     @Column("publisher_id")
     private UUID publisherId;
 

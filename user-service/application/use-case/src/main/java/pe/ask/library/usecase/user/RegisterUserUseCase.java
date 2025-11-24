@@ -2,6 +2,7 @@ package pe.ask.library.usecase.user;
 
 import pe.ask.library.model.user.User;
 import pe.ask.library.port.in.usecase.user.IRegisterUserUseCase;
+import pe.ask.library.port.out.kafka.IKafkaMessageSenderPort;
 import pe.ask.library.port.out.kafka.KafkaSender;
 import pe.ask.library.port.out.logger.Logger;
 import pe.ask.library.port.out.persistence.IRoleRepository;
@@ -12,6 +13,7 @@ import pe.ask.library.usecase.utils.UseCase;
 import pe.ask.library.usecase.utils.exception.RoleNotFoundException;
 import pe.ask.library.usecase.utils.exception.UserAlreadyExistsException;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.LocalDateTime;
 
@@ -21,15 +23,18 @@ public class RegisterUserUseCase implements IRegisterUserUseCase {
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
     private final IPasswordEncoder passwordEncoder;
+    private final IKafkaMessageSenderPort kafkaSender;
 
     public RegisterUserUseCase(
             IUserRepository userRepository,
             IRoleRepository roleRepository,
-            IPasswordEncoder passwordEncoder
+            IPasswordEncoder passwordEncoder,
+            IKafkaMessageSenderPort kafkaSender
     ) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.kafkaSender = kafkaSender;
     }
 
     @Logger
@@ -56,6 +61,21 @@ public class RegisterUserUseCase implements IRegisterUserUseCase {
                                             .build()
                             );
                 })
-                .flatMap(userRepository::registerUser);
+                .flatMap(userRepository::registerUser)
+                .publishOn(Schedulers.boundedElastic())
+                .doOnNext(userSaved -> {
+                    var welcomeEmail = new WelcomeEmail(
+                            userSaved.getName() + " " + userSaved.getLastName(),
+                            userSaved.getEmail()
+                    );
+                    kafkaSender.send("welcome-email", welcomeEmail)
+                            .subscribe(
+                    );
+                });
     }
+
+    private record WelcomeEmail(
+            String completeName,
+            String email
+    ){}
 }

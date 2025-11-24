@@ -1,0 +1,12 @@
+dependencies {
+    implementation project(':port')
+    implementation 'org.springframework:spring-context'
+
+    testImplementation("com.github.valfirst:slf4j-test:3.0.3") {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+    configurations.configureEach {
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+        exclude group: 'ch.qos.logback', module: 'logback-core'
+    }
+}

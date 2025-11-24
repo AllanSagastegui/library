@@ -27,4 +27,5 @@ public interface IBookRepository {
     Mono<Long> countAllByPublisherId(UUID publisherId);
     Mono<Long> countAllByCategoryId(UUID categoryId);
     Mono<Long> countAllByAuthorId(UUID authorId);
+    Mono<Boolean> validateBookStock(UUID id);
 }

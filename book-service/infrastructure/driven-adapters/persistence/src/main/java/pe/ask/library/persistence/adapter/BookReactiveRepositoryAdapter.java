@@ -14,7 +14,12 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 @Repository
-public class BookReactiveRepositoryAdapter extends ReactiveAdapterOperations<Book, BookEntity, UUID, IBookReactiveRepository> implements IBookRepository {
+public class BookReactiveRepositoryAdapter extends ReactiveAdapterOperations<
+        Book,
+        BookEntity,
+        UUID,
+        IBookReactiveRepository
+        > implements IBookRepository {
 
     public BookReactiveRepositoryAdapter(IBookReactiveRepository repository, ObjectMapper mapper) {
         super(repository, mapper, d -> mapper.map(d, Book.class));
@@ -94,6 +99,11 @@ public class BookReactiveRepositoryAdapter extends ReactiveAdapterOperations<Boo
     @Override
     public Mono<Long> countAllByAuthorId(UUID authorId) {
         return repository.countByAuthorId(authorId);
+    }
+
+    @Override
+    public Mono<Boolean> validateBookStock(UUID id) {
+        return super.repository.validateBookStock(id);
     }
 
     @Override

@@ -13,6 +13,7 @@ dependencies {
     implementation project(':logger')
     implementation project(':persistence')
     implementation project(':security')
+    implementation project(':kafka-listener')
     implementation project(':reactive-web')
 
     implementation 'org.springframework.boot:spring-boot-starter'

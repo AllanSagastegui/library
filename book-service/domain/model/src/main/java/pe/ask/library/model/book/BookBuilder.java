@@ -10,6 +10,7 @@ public class BookBuilder {
     private int numberOfPages;
     private String language;
     private Format format;
+    private int stock;
     private UUID publisherId;
     private UUID categoryId;
     private UUID authorId;
@@ -49,6 +50,11 @@ public class BookBuilder {
         return this;
     }
 
+    public BookBuilder withStock(int stock) {
+        this.stock = stock;
+        return this;
+    }
+
     public BookBuilder withPublisherId(UUID publisherId) {
         this.publisherId = publisherId;
         return this;
@@ -65,6 +71,6 @@ public class BookBuilder {
     }
 
     public Book build() {
-        return new Book(id, title, gender, summary, numberOfPages, language, format, publisherId, categoryId, authorId);
+        return new Book(id, title, gender, summary, numberOfPages, language, format, stock, publisherId, categoryId, authorId);
     }
 }

@@ -22,6 +22,20 @@ adapters:
       bootstrap-servers: "localhost:9094"
       key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
       value-serializer: "org.apache.kafka.common.serialization.StringSerializer"
+entry-points:
+  kafka:
+    consumer:
+      bootstrap-servers: "localhost:9094"
+      group-id: "Audit-Service"
+      auto-offset-reset: "latest"
+      key-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      value-deserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+    properties:
+      max.poll.records: 100
+      fetch.min.bytes: 500
+    topics:
+      - "loan-validate-book-stock"
+      - "loan-update-book-stock"
 management:
   endpoints:
     web:

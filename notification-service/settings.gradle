@@ -16,3 +16,34 @@ rootProject.name = 'notification-service'
 
 include ':run'
 project(':run').projectDir = file('./run')
+
+include ':model'
+project(':model').projectDir = file('./domain/model')
+
+include ':port'
+project(':port').projectDir = file('./domain/port')
+
+include ':use-case'
+project(':use-case').projectDir = file('./application/use-case')
+
+include ':aop'
+project(':aop').projectDir = file('./infrastructure/driven-adapters/aop')
+
+include ':kafka-sender'
+project(':kafka-sender').projectDir = file('./infrastructure/driven-adapters/kafka-sender')
+
+include ':logger'
+project(':logger').projectDir = file('./infrastructure/driven-adapters/logger')
+
+include ':notification-sender'
+project(':notification-sender').projectDir = file('./infrastructure/driven-adapters/notification-sender')
+
+include ':persistence'
+project(':persistence').projectDir = file('./infrastructure/driven-adapters/persistence')
+
+include ':kafka-listener'
+project(':kafka-listener').projectDir = file('./infrastructure/entry-points/kafka-listener')
+
+include ':reactive-web'
+project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
+

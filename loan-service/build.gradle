@@ -3,8 +3,8 @@ buildscript {
 		springBootVersion = '3.5.4'
         lombokVersion = '1.18.38'
         slf4jVersion = '2.0.17'
-        mapStructVersion = '1.6.3'
         springdocOpenapiStarterWebfluxVersion = '2.8.11'
+        springCloudVersion = '2025.0.0'
 	}
 }
 

@@ -12,7 +12,7 @@ import pe.ask.library.config.LoadBalancerConfig;
 public class BookRouter {
 
     @Bean
-    public RouteLocator bookRoutes(RouteLocatorBuilder builder) {
+    public RouteLocator bookRouterLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("book-service", r -> r.path("/api/v1/books/**")
                         .uri("lb://book-service"))

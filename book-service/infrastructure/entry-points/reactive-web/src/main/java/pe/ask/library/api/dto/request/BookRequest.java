@@ -19,6 +19,7 @@ public class BookRequest {
     private int numberOfPages;
     private String language;
     private Format format;
+    private int stock;
     private UUID publisherId;
     private UUID categoryId;
     private UUID authorId;
