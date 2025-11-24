@@ -25,15 +25,30 @@ public abstract class ReactiveKafkaListenerOperations<T> {
     public Flux<Void> listenMessage() {
         return reactiveKafkaConsumer
                 .receiveAutoAck()
+                // 1. Log cuando la aplicación arranca y se suscribe
+                .doOnSubscribe(subscription -> log.info("⚡ [KAFKA-LISTENER] Iniciando suscripción al tópico: {}", getTargetTopic()))
                 .filter(payload -> getTargetTopic().equals(payload.topic()))
+                // 2. Log cuando llega el mensaje crudo (Raw JSON)
+                .doOnNext(record -> log.info("📩 [KAFKA-RECEIVE] Mensaje recibido en {}: \nPayload: {}", record.topic(), record.value()))
                 .publishOn(Schedulers.boundedElastic())
-                .flatMap(payload ->
-                        Mono.fromCallable(() -> mapper.readValue(payload.value(), getPayloadClass()))
+                .flatMap(record ->
+                        Mono.fromCallable(() -> {
+                                    // 3. Intento de deserialización
+                                    log.debug("⚙️ [KAFKA-DESERIALIZE] Convirtiendo mensaje a {}", getPayloadClass().getSimpleName());
+                                    return mapper.readValue(record.value(), getPayloadClass());
+                                })
                                 .subscribeOn(Schedulers.boundedElastic())
-                                .flatMap(this::processRecord)
+                                .flatMap(payload -> {
+                                    // 4. Antes de ejecutar tu lógica de negocio
+                                    log.info("🚀 [KAFKA-PROCESS] Ejecutando processRecord para: {}", payload);
+                                    return processRecord(payload);
+                                })
+                                // 5. Log de éxito tras terminar processRecord
+                                .doOnSuccess(unused -> log.info("✅ [KAFKA-SUCCESS] Mensaje procesado correctamente en {}", getTargetTopic()))
                 )
-                .doOnError(error -> log.error("Error processing kafka record from topic {}", getTargetTopic(), error))
+                .doOnError(error -> log.error("❌ [KAFKA-ERROR] Error procesando registro Kafka en tópico {}", getTargetTopic(), error))
                 .retry()
-                .repeat();
+                .repeat()
+                .doOnSubscribe(s -> log.info("🔌 [KAFKA-CONN] Flujo reactivo conectado."));
     }
 }
