@@ -23,7 +23,7 @@ public class LoanEntity {
     private UUID id;
 
     @Column("user_id")
-    private UUID userId;
+    private String userId;
 
     @Column("book_id")
     private UUID bookId;

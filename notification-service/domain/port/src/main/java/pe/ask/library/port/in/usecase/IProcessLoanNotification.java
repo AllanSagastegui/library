@@ -9,7 +9,7 @@ import java.util.UUID;
 @FunctionalInterface
 public interface IProcessLoanNotification {
     Mono<Void> processLoanNotification(UUID loanId,
-                                       UUID userId,
+                                       String userId,
                                        LocalDateTime loanDate,
                                        LocalDateTime estimatedReturnDate,
                                        Status status);

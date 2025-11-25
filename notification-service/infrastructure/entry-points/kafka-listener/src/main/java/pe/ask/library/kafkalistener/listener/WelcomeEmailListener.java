@@ -1,7 +1,6 @@
 package pe.ask.library.kafkalistener.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import org.springframework.stereotype.Component;
 import pe.ask.library.kafkalistener.helper.ReactiveKafkaListenerOperations;
 import pe.ask.library.kafkalistener.payload.WelcomeEmail;
@@ -14,16 +13,15 @@ public class WelcomeEmailListener extends ReactiveKafkaListenerOperations<Welcom
     private final ISendWelcomeEmail sendWelcomeEmail;
 
     public WelcomeEmailListener(
-            ReactiveKafkaConsumerTemplate<String, String> reactiveKafkaConsumer,
             ObjectMapper mapper,
             ISendWelcomeEmail sendWelcomeEmail
     ) {
-        super(reactiveKafkaConsumer, mapper);
+        super(mapper);
         this.sendWelcomeEmail = sendWelcomeEmail;
     }
 
     @Override
-    protected String getTargetTopic() {
+    public String getTargetTopic() {
         return "welcome-email";
     }
 

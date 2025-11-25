@@ -13,23 +13,23 @@ import java.util.UUID;
 public interface ILoanReactiveRepository extends ReactiveCrudRepository<LoanEntity, UUID>, ReactiveQueryByExampleExecutor<LoanEntity> {
 
 
-    @Query("SELECT * FROM loan OFFSET :offset LIMIT :limit")
+    @Query("SELECT * FROM loans OFFSET :offset LIMIT :limit")
     Flux<LoanEntity> findAllPaginated(@Param("offset") int offset, @Param("limit") int limit);
 
 
-    @Query("SELECT * FROM loan WHERE user_id = :userId OFFSET :offset LIMIT :limit")
-    Flux<LoanEntity> getAllLoansByUserId(@Param("userId") UUID userId, @Param("offset") int offset, @Param("limit") int limit);
+    @Query("SELECT * FROM loans WHERE user_id = :userId OFFSET :offset LIMIT :limit")
+    Flux<LoanEntity> getAllLoansByUserId(@Param("userId") String userId, @Param("offset") int offset, @Param("limit") int limit);
 
-    @Query("SELECT * FROM loan WHERE book_id = :bookId OFFSET :offset LIMIT :limit")
-    Flux<LoanEntity> getAllLoansByBookId(@Param("bookId") UUID userId, @Param("offset") int offset, @Param("limit") int limit);
+    @Query("SELECT * FROM loans WHERE book_id = :bookId OFFSET :offset LIMIT :limit")
+    Flux<LoanEntity> getAllLoansByBookId(@Param("bookId") UUID bookId, @Param("offset") int offset, @Param("limit") int limit);
 
-    @Query("SELECT count(*) FROM loan")
+    @Query("SELECT count(*) FROM loans")
     Mono<Long> countAll();
 
-    @Query("SELECT count(*) FROM loan WHERE user_id = :userId")
-    Mono<Long> countAllByUserId(@Param("userId") UUID userId);
+    @Query("SELECT count(*) FROM loans WHERE user_id = :userId")
+    Mono<Long> countAllByUserId(@Param("userId") String userId);
 
-    @Query("SELECT count(*) FROM loan WHERE book_id = :bookId")
+    @Query("SELECT count(*) FROM loans WHERE book_id = :bookId")
     Mono<Long> countAllByBookId(@Param("bookId") UUID bookId);
 
 }

@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 import static org.springframework.data.domain.Example.of;
 
-public abstract class AdapterOperations<E, D, I, R extends ReactiveCrudRepository<D, I> & ReactiveQueryByExampleExecutor<D>> {
+public abstract class ReactiveAdapterOperations<E, D, I, R extends ReactiveCrudRepository<D, I> & ReactiveQueryByExampleExecutor<D>> {
 
     protected R repository;
     protected ObjectMapper mapper;
@@ -19,7 +19,7 @@ public abstract class AdapterOperations<E, D, I, R extends ReactiveCrudRepositor
     private final Function<D, E> toEntityFn;
 
     @SuppressWarnings("unchecked")
-    protected AdapterOperations(R repository, ObjectMapper mapper, Function<D, E> toEntityFn) {
+    protected ReactiveAdapterOperations(R repository, ObjectMapper mapper, Function<D, E> toEntityFn) {
         this.repository = repository;
         this.mapper = mapper;
         ParameterizedType genericSuperclass = (ParameterizedType) this.getClass().getGenericSuperclass();
@@ -71,7 +71,7 @@ public abstract class AdapterOperations<E, D, I, R extends ReactiveCrudRepositor
     }
 
     protected E toEntity(D data) {
-        return toEntityFn.apply(data);
+        return data != null ? toEntityFn.apply(data) : null;
     }
 
 }

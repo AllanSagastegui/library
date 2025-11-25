@@ -33,15 +33,14 @@ public class CreateLoanUseCase implements ICreateLoanUseCase {
     @KafkaSender(topic = "audit-log")
     public Mono<Loan> createLoan(Loan loan) {
         return auditable.getAuditUserId()
-                .map(userIdStr -> { loan.toBuilder()
-                        .userId(UUID.fromString(userIdStr))
+                .map(userIdStr -> loan.toBuilder()
+                        .userId(userIdStr)
                         .loanDate(LocalDateTime.now())
                         .estimatedReturnDate(LocalDateTime.now().plusDays(15))
                         .dateOfRealReturn(null)
                         .status(Status.PENDING)
-                        .build();
-                    return loan;
-                })
+                        .build()
+                )
                 .flatMap(repository::createLoan)
                 .flatMap(loanSaved -> {
                     ValidateStock payload = new ValidateStock(loanSaved.getId() ,loanSaved.getBookId());
@@ -63,7 +62,7 @@ public class CreateLoanUseCase implements ICreateLoanUseCase {
 
     public record LoanNotificationMsg(
             UUID loanId,
-            UUID userId,
+            String userId,
             LocalDateTime loanDate,
             LocalDateTime estimatedReturnDate,
             Status status

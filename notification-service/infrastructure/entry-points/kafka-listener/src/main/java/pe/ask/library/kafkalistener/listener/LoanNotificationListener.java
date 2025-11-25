@@ -1,7 +1,6 @@
 package pe.ask.library.kafkalistener.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import org.springframework.stereotype.Component;
 import pe.ask.library.kafkalistener.helper.ReactiveKafkaListenerOperations;
 import pe.ask.library.kafkalistener.payload.LoanNotificationMsg;
@@ -14,16 +13,15 @@ public class LoanNotificationListener extends ReactiveKafkaListenerOperations<Lo
     private final IProcessLoanNotification processLoanNotification;
 
     public LoanNotificationListener(
-            ReactiveKafkaConsumerTemplate<String, String> reactiveKafkaConsumer,
             ObjectMapper mapper,
             IProcessLoanNotification processLoanNotification
     ) {
-        super(reactiveKafkaConsumer, mapper);
+        super(mapper);
         this.processLoanNotification = processLoanNotification;
     }
 
     @Override
-    protected String getTargetTopic() {
+    public String getTargetTopic() {
         return "loan-notification";
     }
 

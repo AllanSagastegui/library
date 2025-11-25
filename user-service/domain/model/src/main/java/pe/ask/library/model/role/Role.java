@@ -13,7 +13,7 @@ public class Role {
         this.description = description;
     }
 
-    public RoleBuilder builder() {
+    public static RoleBuilder builder() {
         return new RoleBuilder();
     }
 

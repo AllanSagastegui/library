@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class KafkaMessageSenderAspect {
 
-    private final IKafkaMessageSenderPort<AuditLog> kafkaMessageSenderPort;
+    private final IKafkaMessageSenderPort kafkaMessageSenderPort;
     private final IAuditable auditable;
 
     @Value("${spring.application.name:user-service}")

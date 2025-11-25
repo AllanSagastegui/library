@@ -34,7 +34,8 @@ public class SecurityConfig {
                         .permitAll()
                         .pathMatchers(
                                 "/api/v1/books/**",
-                                "/api/v1/loans/**"
+                                "/api/v1/loans/**",
+                                "/api/v1/audit-log/**"
                         ).hasAnyRole("ADMIN", "LIBRARY", "USER")
                 )
                 .exceptionHandling(ex -> ex

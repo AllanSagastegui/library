@@ -1,6 +1,5 @@
 package pe.ask.library.usecase.user;
 
-import pe.ask.library.model.user.User;
 import pe.ask.library.port.in.usecase.user.IProcessGetUserInfoUseCase;
 import pe.ask.library.port.out.kafka.IKafkaMessageSenderPort;
 import pe.ask.library.port.out.persistence.IUserRepository;

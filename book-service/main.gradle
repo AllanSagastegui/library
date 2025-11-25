@@ -8,7 +8,9 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'jacoco'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'info.solidsoft.pitest'
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -41,14 +43,108 @@ subprojects {
 
     }
 
-}
+    tasks.withType(Test).configureEach {
+        if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_13)) {
+            jvmArgs += [
+                    "-XX:+AllowRedefinitionToAddDeleteMethods"
+            ]
+        }
+    }
 
-tasks.withType(Test).configureEach {
-    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_13)) {
-        jvmArgs += [
-                "-XX:+AllowRedefinitionToAddDeleteMethods"
-        ]
+    test.finalizedBy(project.tasks.jacocoTestReport)
+
+    pitest {
+        targetClasses = ['pe.ask.library.*']
+        excludedClasses = []
+        excludedTestClasses = []
+        pitestVersion = '1.20.1'
+        verbose = false
+        outputFormats = ['XML', 'HTML']
+        threads = 8
+        exportLineCoverage = true
+        useClasspathFile = true
+        timestampedReports = false
+        fileExtensionsToFilter.addAll('xml', 'orbit')
+        junit5PluginVersion = '1.2.2'
+        failWhenNoMutations = false
+        jvmArgs = ["-XX:+AllowRedefinitionToAddDeleteMethods"]
+    }
+
+    jacocoTestReport {
+        dependsOn test
+        reports {
+            xml.required = true
+            xml.outputLocation = layout.buildDirectory.file("reports/jacoco.xml")
+            csv.required = false
+            html.outputLocation = layout.buildDirectory.dir("reports/jacocoHtml")
+        }
     }
 }
+
+
+jacoco {
+    toolVersion = "${jacocoVersion}"
+    reportsDirectory.set(layout.buildDirectory.dir("reports"))
+}
+
+tasks.register('pitestReportAggregate') {
+    group = "Verification"
+    description = "Combina los reportes XML de Pitest de los submódulos"
+
+    dependsOn(subprojects.collect { it.tasks.named('pitest') })
+
+    def inputReports = files(subprojects.collect {
+        it.layout.buildDirectory.file("reports/pitest/mutations.xml")
+    })
+
+    inputs.files(inputReports)
+
+    def outputFile = layout.buildDirectory.file("reports/pitest/mutations.xml")
+    outputs.file(outputFile)
+
+    doLast {
+        def consolidatedReport = outputFile.get().asFile
+        consolidatedReport.parentFile.mkdirs()
+
+        consolidatedReport.withWriter { writer ->
+            writer.write("<mutations>\n")
+
+            inputReports.each { file ->
+                if (file.exists()) {
+                    def xmlContent = file.text
+                    xmlContent = xmlContent.replaceAll("<\\?xml[^>]*>", "")
+                    xmlContent = xmlContent.replaceAll("</?mutations( partial=\"true\")?>", "")
+                    writer.write(xmlContent.trim() + "\n")
+                }
+            }
+            writer.write("</mutations>")
+        }
+        println "Reporte Pitest consolidado generado en: ${consolidatedReport.absolutePath}"
+    }
+}
+
+tasks.register('jacocoMergedReport', JacocoReport) {
+    dependsOn subprojects.jacocoTestReport, tasks.named('pitestReportAggregate')
+
+    additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom files(subprojects.sourceSets.main.output)
+    executionData.setFrom project.fileTree(dir: '.', include: '**/build/jacoco/test.exec')
+
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir("reports/jacocoMerged")
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true'
+    ]
+}
+
+
 
 

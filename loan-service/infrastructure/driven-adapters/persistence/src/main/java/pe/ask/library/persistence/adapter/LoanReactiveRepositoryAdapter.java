@@ -48,14 +48,14 @@ public class LoanReactiveRepositoryAdapter extends ReactiveAdapterOperations<
     }
 
     @Override
-    public Flux<Loan> getAllLoansByUserId(UUID userId, int page, int size) {
+    public Flux<Loan> getAllLoansByUserId(String userId, int page, int size) {
         return super.repository.getAllLoansByUserId(userId, page * size, size)
                 .map(this::toEntity);
     }
 
     @Override
     public Flux<Loan> getAllLoansByBookId(UUID bookId, int page, int size) {
-        return super.repository.getAllLoansByUserId(bookId, page * size, size)
+        return super.repository.getAllLoansByBookId(bookId, page * size, size)
                 .map(this::toEntity);
     }
 
@@ -71,12 +71,12 @@ public class LoanReactiveRepositoryAdapter extends ReactiveAdapterOperations<
     }
 
     @Override
-    public Mono<Long> countAllByUserId(UUID userId) {
+    public Mono<Long> countAllByUserId(String userId) {
         return super.repository.countAllByUserId(userId);
     }
 
     @Override
     public Mono<Long> countAllByBookId(UUID bookId) {
-        return super.repository.countAllByUserId(bookId);
+        return super.repository.countAllByBookId(bookId);
     }
 }

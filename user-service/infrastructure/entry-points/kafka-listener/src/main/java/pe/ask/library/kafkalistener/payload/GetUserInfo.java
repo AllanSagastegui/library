@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record GetUserInfo(
         UUID loanId,
-        UUID userId,
+        String userId,
         LocalDateTime loanDate,
         LocalDateTime estimatedReturnDate,
         Status status

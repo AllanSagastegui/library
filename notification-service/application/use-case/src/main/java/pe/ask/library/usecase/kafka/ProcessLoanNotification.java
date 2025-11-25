@@ -23,13 +23,13 @@ public class ProcessLoanNotification implements IProcessLoanNotification {
     @Logger
     @Override
     @KafkaSender(topic = "audit-log")
-    public Mono<Void> processLoanNotification(UUID loanId, UUID userId, LocalDateTime loanDate, LocalDateTime estimatedReturnDate, Status status) {
+    public Mono<Void> processLoanNotification(UUID loanId, String userId, LocalDateTime loanDate, LocalDateTime estimatedReturnDate, Status status) {
         return kafkaSender.send("notification-user-info", new GetUserInfo(loanId, userId, loanDate, estimatedReturnDate, status));
     }
 
     private record GetUserInfo(
             UUID loanId,
-            UUID userId,
+            String userId,
             LocalDateTime loanDate,
             LocalDateTime estimatedReturnDate,
             Status status

@@ -44,16 +44,26 @@ public class ProcessValidStock implements IProcessValidStock {
                         updatedLoan.getEstimatedReturnDate(),
                         updatedLoan.getStatus()
                 );
-                    return kafkaSender.send("loan-notification", loanNotificationMsg);
+                    UpdateBook updateBook = new UpdateBook(bookId, 1, isValid);
+                    Mono<Void> sendUpdateBook = kafkaSender.send("loan-update-book-stock", updateBook);
+                    return sendUpdateBook
+                            .then(kafkaSender.send("loan-notification", loanNotificationMsg));
                 });
     }
 
 
     public record LoanNotificationMsg(
             UUID loanId,
-            UUID userId,
+            String userId,
             LocalDateTime loanDate,
             LocalDateTime estimatedReturnDate,
             Status status
     ){ }
+    public record UpdateBook(
+            UUID bookId,
+            int quantity,
+            boolean isIncrement
+    ) {
+    }
+
 }

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class LoanBuilder {
     private UUID id;
-    private UUID userId;
+    private String userId;
     private UUID bookId;
     private LocalDateTime loanDate;
     private LocalDateTime estimatedReturnDate;
@@ -20,7 +20,7 @@ public class LoanBuilder {
         return this;
     }
 
-    public LoanBuilder userId(UUID userId) {
+    public LoanBuilder userId(String userId) {
         this.userId = userId;
         return this;
     }

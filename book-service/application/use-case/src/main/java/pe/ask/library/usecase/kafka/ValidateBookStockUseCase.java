@@ -15,9 +15,9 @@ import java.util.UUID;
 public class ValidateBookStockUseCase implements IValidateBookStockUseCase {
 
     private final IBookRepository repository;
-    private final IKafkaMessageSenderPort<ValidStock> kafkaSender;
+    private final IKafkaMessageSenderPort kafkaSender;
 
-    public ValidateBookStockUseCase(IBookRepository repository, IKafkaMessageSenderPort<ValidStock> kafkaSender) {
+    public ValidateBookStockUseCase(IBookRepository repository, IKafkaMessageSenderPort kafkaSender) {
         this.repository = repository;
         this.kafkaSender = kafkaSender;
     }

@@ -1,7 +1,6 @@
 package pe.ask.library.kafkalistener.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import org.springframework.stereotype.Component;
 import pe.ask.library.kafkalistener.helper.ReactiveKafkaListenerOperations;
 import pe.ask.library.kafkalistener.payload.ValidateStock;
@@ -14,17 +13,16 @@ public class ValidateBookStockListener extends ReactiveKafkaListenerOperations<V
     private final IValidateBookStockUseCase useCase;
 
     public ValidateBookStockListener(
-            ReactiveKafkaConsumerTemplate<String, String> reactiveKafkaConsumer,
             ObjectMapper mapper,
             IValidateBookStockUseCase useCase
     ) {
-        super(reactiveKafkaConsumer, mapper);
+        super(mapper);
         this.useCase = useCase;
     }
 
 
     @Override
-    protected String getTargetTopic() {
+    public String getTargetTopic() {
         return ListenTopics.LOAN_VALIDATE_BOOK_STOCK;
     }
 

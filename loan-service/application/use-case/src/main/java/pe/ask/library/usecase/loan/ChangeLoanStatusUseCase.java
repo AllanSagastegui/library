@@ -23,6 +23,7 @@ public class ChangeLoanStatusUseCase implements IChangeLoanStatusUseCase {
         this.repository = repository;
         this.kafkaSender = kafkaSender;
     }
+
     @Logger
     @Override
     @KafkaSender(topic = "audit-log")
@@ -31,21 +32,43 @@ public class ChangeLoanStatusUseCase implements IChangeLoanStatusUseCase {
                 .switchIfEmpty(Mono.error(RuntimeException::new))
                 .flatMap(loan -> {
                     loan.setStatus(status);
+                    UpdateBook updateBookMsg = null;
                     if (status.equals(Status.RETURNED)) {
                         loan.setDateOfRealReturn(LocalDateTime.now());
+                        updateBookMsg = new UpdateBook(loan.getBookId(), 1, false);
                     }
-                    LoanNotificationMsg msg = new LoanNotificationMsg(loan.getId(), loan.getUserId(), loan.getLoanDate(), loan.getEstimatedReturnDate(), loan.getStatus());
+                    LoanNotificationMsg notificationMsg = new LoanNotificationMsg(
+                            loan.getId(),
+                            loan.getUserId(),
+                            loan.getLoanDate(),
+                            loan.getEstimatedReturnDate(),
+                            loan.getStatus()
+                    );
+                    UpdateBook finalUpdateBookMsg = updateBookMsg;
                     return repository.loanChangeStatus(loanId, loan)
-                            .then(kafkaSender.send("loan-notification", msg))
-                            .thenReturn(loan);
+                            .flatMap(savedLoan -> {
+                                Mono<Void> sendNotification = kafkaSender.send("loan-notification", notificationMsg);
+
+                                Mono<Void> sendStockUpdate = (finalUpdateBookMsg != null)
+                                        ? kafkaSender.send("loan-update-book-stock", finalUpdateBookMsg)
+                                        : Mono.empty();
+                                return Mono.when(sendNotification, sendStockUpdate)
+                                        .thenReturn(savedLoan);
+                            });
                 });
     }
 
     public record LoanNotificationMsg(
             UUID loanId,
-            UUID userId,
+            String userId,
             LocalDateTime loanDate,
             LocalDateTime estimatedReturnDate,
             Status status
     ){ }
+
+    public record UpdateBook(
+            UUID bookId,
+            int quantity,
+            boolean isIncrement
+    ) { }
 }

@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS loans (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID NOT NULL,
+    user_id VARCHAR(50) NOT NULL,
     book_id UUID NOT NULL,
     loan_date TIMESTAMP NOT NULL,
     estimated_return_date TIMESTAMP NOT NULL,

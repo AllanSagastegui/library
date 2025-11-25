@@ -1,7 +1,6 @@
 package pe.ask.library.kafkalistener.listener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.kafka.core.reactive.ReactiveKafkaConsumerTemplate;
 import org.springframework.stereotype.Component;
 import pe.ask.library.kafkalistener.helper.ReactiveKafkaListenerOperations;
 import pe.ask.library.kafkalistener.payload.UserInfo;
@@ -14,16 +13,15 @@ public class LoanEmailListener extends ReactiveKafkaListenerOperations<UserInfo>
     private final ISendLoanEmail sendLoanEmail;
 
     public LoanEmailListener(
-            ReactiveKafkaConsumerTemplate<String, String> reactiveKafkaConsumer,
             ObjectMapper mapper,
             ISendLoanEmail sendLoanEmail
     ) {
-        super(reactiveKafkaConsumer, mapper);
+        super(mapper);
         this.sendLoanEmail = sendLoanEmail;
     }
 
     @Override
-    protected String getTargetTopic() {
+    public String getTargetTopic() {
         return "loan-email";
     }
 

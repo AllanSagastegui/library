@@ -13,7 +13,6 @@ import pe.ask.library.usecase.utils.UseCase;
 import pe.ask.library.usecase.utils.exception.RoleNotFoundException;
 import pe.ask.library.usecase.utils.exception.UserAlreadyExistsException;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 import java.time.LocalDateTime;
 
@@ -62,15 +61,13 @@ public class RegisterUserUseCase implements IRegisterUserUseCase {
                             );
                 })
                 .flatMap(userRepository::registerUser)
-                .publishOn(Schedulers.boundedElastic())
-                .doOnNext(userSaved -> {
+                .flatMap(userSaved -> {
                     var welcomeEmail = new WelcomeEmail(
                             userSaved.getName() + " " + userSaved.getLastName(),
                             userSaved.getEmail()
                     );
-                    kafkaSender.send("welcome-email", welcomeEmail)
-                            .subscribe(
-                    );
+                    return kafkaSender.send("welcome-email", welcomeEmail)
+                            .thenReturn(userSaved);
                 });
     }
 

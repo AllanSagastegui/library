@@ -10,8 +10,6 @@ import pe.ask.library.api.utils.validator.CustomValidator;
 import pe.ask.library.port.in.usecase.loan.IGetAllLoansByUserIdUseCase;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @Component
 public class GetAllLoansByUserHandler extends ReactiveHandlerOperations<
         IGetAllLoansByUserIdUseCase
@@ -25,7 +23,7 @@ public class GetAllLoansByUserHandler extends ReactiveHandlerOperations<
     public Mono<ServerResponse> listenGETAllLoansByUserIdUseCase(ServerRequest serverRequest) {
         int page = getPage(serverRequest);
         int size = getSize(serverRequest);
-        UUID userId = getPathUuid(serverRequest, "userId");
+        String userId = getPathVar(serverRequest, "userId");
 
         return useCase.getAllLoansByUserId(userId, page, size)
                 .flatMap(response ->

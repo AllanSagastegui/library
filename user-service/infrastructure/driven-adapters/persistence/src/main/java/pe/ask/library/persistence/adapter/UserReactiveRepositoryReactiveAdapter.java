@@ -4,22 +4,20 @@ import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import pe.ask.library.model.user.User;
 import pe.ask.library.persistence.document.UserDocument;
-import pe.ask.library.persistence.helper.AdapterOperations;
+import pe.ask.library.persistence.helper.ReactiveAdapterOperations;
 import pe.ask.library.persistence.repository.IUserReactiveRepository;
 import pe.ask.library.port.out.persistence.IUserRepository;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @Repository
-public class UserReactiveRepositoryAdapter extends AdapterOperations<
+public class UserReactiveRepositoryReactiveAdapter extends ReactiveAdapterOperations<
         User,
         UserDocument,
         String,
         IUserReactiveRepository
         > implements IUserRepository {
 
-    public UserReactiveRepositoryAdapter(IUserReactiveRepository repository, ObjectMapper mapper) {
+    public UserReactiveRepositoryReactiveAdapter(IUserReactiveRepository repository, ObjectMapper mapper) {
         super(repository, mapper, d -> mapper.map(d, User.class));
     }
 

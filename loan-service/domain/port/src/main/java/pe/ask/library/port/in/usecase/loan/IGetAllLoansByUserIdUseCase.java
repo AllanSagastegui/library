@@ -4,9 +4,8 @@ import pe.ask.library.model.loan.Loan;
 import pe.ask.library.model.utils.Pageable;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 
 @FunctionalInterface
 public interface IGetAllLoansByUserIdUseCase {
-    Mono<Pageable<Loan>> getAllLoansByUserId(UUID userId, int page, int size);
+    Mono<Pageable<Loan>> getAllLoansByUserId(String userId, int page, int size);
 }

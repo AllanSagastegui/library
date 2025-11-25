@@ -2,6 +2,7 @@ package pe.ask.library.usecase.kafka;
 
 import pe.ask.library.model.book.Book;
 import pe.ask.library.port.in.usecase.kafka.IUpdateBookStockUseCase;
+import pe.ask.library.port.out.logger.Logger;
 import pe.ask.library.port.out.persistence.IBookRepository;
 import pe.ask.library.usecase.utils.UseCase;
 import reactor.core.publisher.Mono;
@@ -16,6 +17,7 @@ public class UpdateBookStockUseCase implements IUpdateBookStockUseCase {
         this.repository = repository;
     }
 
+    @Logger
     @Override
     public Mono<Void> updateBookStock(UUID bookId, int quantity, boolean isIncrement) {
         return Mono.just(quantity)
@@ -29,7 +31,7 @@ public class UpdateBookStockUseCase implements IUpdateBookStockUseCase {
         return repository.getBookById(bookId)
                 .switchIfEmpty(Mono.error(RuntimeException::new))
                 .map(book -> {
-                    int adjustment = isIncrement ? quantity : -quantity;
+                    int adjustment = isIncrement ? -quantity : +quantity;
                     int newStock = book.getStock() + adjustment;
                     book.setStock(newStock);
                     return book;

@@ -26,7 +26,7 @@ public class GetAllLoansByUserIdUseCase implements IGetAllLoansByUserIdUseCase {
     @Logger
     @Override
     @KafkaSender(topic = "audit-log")
-    public Mono<Pageable<Loan>> getAllLoansByUserId(UUID userId, int page, int size) {
+    public Mono<Pageable<Loan>> getAllLoansByUserId(String userId, int page, int size) {
         return utils.createPageable(
                 repository.getAllLoansByUserId(userId, page, size),
                 repository.countAllByUserId(userId),

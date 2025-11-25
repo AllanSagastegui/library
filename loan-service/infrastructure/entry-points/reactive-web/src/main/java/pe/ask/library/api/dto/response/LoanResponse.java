@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class LoanResponse {
-    private UUID userId;
+    private String userId;
     private UUID bookId;
     private LocalDateTime loanDate;
     private LocalDateTime estimatedReturnDate;
